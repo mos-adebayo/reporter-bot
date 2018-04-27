@@ -1,0 +1,30 @@
+{
+  "name": "alawiye",
+  "version": "1.0.0",
+  "description": "Reporter ...",
+  "main": "index.js",
+  "author": "moscoworld",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development babel-node src/index.js",
+    "build": "rm -rf ./dist/ && babel src --out-dir dist/ --copy-files",
+    "prod": "NODE_ENV=production node dist/index.js",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "body-parser": "^1.18.2",
+    "config": "^1.30.0",
+    "csv-write-stream": "^2.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "express": "^4.16.3",
+    "mkdirp": "^0.5.1",
+    "morgan": "^1.9.0",
+    "request": "^2.85.0",
+    "tracer": "^0.8.12"
+  }
+}
