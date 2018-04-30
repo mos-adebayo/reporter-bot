@@ -7,28 +7,29 @@ import { postChatMessage, uploadFile, getAirline } from '../slack';
 
 //reports
 import getUserActivity from './getUserActivity';
-import getReportActivity from './reporterActivity';
+import getAirlinesActivity from './airlinesActivity';
+import getAirportsActivity from './airportsActivity';
 
 const slackconfig = config.get('slack');
 
 const REPORTS_CONFIG = {
-    userActivity: {
+   /* userActivity: {
         name: 'User Activity',
         namePrefix: 'userActivity',
         type: 'csv',
         func: getUserActivity,
-    },
+    },*/
     airports: {
         name: 'Airports',
         namePrefix: 'airports',
         type: 'text',
-        func: getReportActivity,
+        func: getAirportsActivity,
     },
     airlines: {
         name: 'Airlines',
         namePrefix: 'airlines',
         type: 'csv',
-        func: getReportActivity,
+        func: getAirlinesActivity,
     }
 };
 
@@ -41,7 +42,7 @@ export const reportsList = Object.entries(REPORTS_CONFIG)
     return report;
 });
 
-const generateReportImplAsync = async(options, { slackReqObj }) => {
+const generateReportImplAsync = async(options,  slackReqObj) => {
   const {
       reportName,
       reportTmpName,
@@ -51,39 +52,13 @@ const generateReportImplAsync = async(options, { slackReqObj }) => {
   }  = options;
 
   try{
-      //initiate report
-      // let re = getAirline({});
-      // console.log('Trace', re);
-
-      await reportFunc();
-
-      let message = {
-          responseUrl: slackReqObj.response_url,
-          replaceOriginal: false,
-           mrkdwn: true,
-          mrkdwn_in: ['text']
-      };
-
-      request.get({
-          url: "https://passerelle.test.vggdev.com/api/airport/search",
-          // body: [],
-          json: true,
-      }, (err, response, body) => {
-          if(err){
-              message.text = `Well this is embarrassing :sweat: I couldn't successfully get the report`;
-          }else if(response.statusCode !== 200){
-              message.text = `Well this is embarrassing :sweat: I couldn't successfully get the report`;
-          }else{
-              message.text = `There are currently *${body.Count} airports* on Avitech`;
-
-          }
-          return postChatMessage(message)
-              .catch((ex) => {
-                  log.error(ex);
-              });
-      });
+      /*
+      * Call on the Option for appropriate action
+      * */
+      await reportFunc(options, slackReqObj);
   } catch (err) {
-       const message = {
+      console.log(err);
+        const message = {
           responseUrl: slackReqObj.response_url,
           replaceOriginal: false,
           text: `Well this is embarrassing :sweat: I couldn't successfully get the report *${reportName}*. Please try again later as I look into what went wrong.`,
@@ -206,11 +181,11 @@ export const generateReport = async(options) => {
           reportType: report.type,
           reportFilePath,
           reportFunc(){
-            return report.func({ reportFilePath});
+            return report.func( reportFilePath, slackReqObj);
           }
       };
 
-     generateReportImplAsync(reportParams, { slackReqObj });
+     generateReportImplAsync(reportParams, slackReqObj );
 
       const response = {
           response_type: 'in_channel',
