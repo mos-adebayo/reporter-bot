@@ -78,3 +78,26 @@ export const postRequest = (url, payload) => {
         });
     })
 };
+
+export const getWeekDayName = (code) => {
+    let weekName = '';
+    switch (code){
+      case 1:
+          weekName = 'Monday'; break;
+      case 2:
+          weekName = 'Tuesday'; break;
+      case 3:
+          weekName = 'Wednesday'; break;
+      case 4:
+          weekName = 'Thursday'; break;
+      case 5:
+          weekName = 'Friday'; break;
+      case 6:
+          weekName = 'Saturday'; break;
+      case 0:
+          weekName = 'Sunday'; break;
+      default:
+          weekName = 'Anonymous';
+    }
+    return weekName;
+};

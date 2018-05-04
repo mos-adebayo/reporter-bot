@@ -1,6 +1,6 @@
 import { log, writeToCsv } from "../../utils";
 
-const generateData = async ( { startDate, endDate, totalRecords }) => {
+const generateData = async ({ startDate, endDate, totalRecords }) => {
   try{
       const userActivity = [];
       for(let index = 0; index < totalRecords; index+= 1){

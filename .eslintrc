@@ -1,5 +1,5 @@
 {
-  "extends" : "airbnb-base",
+//  "extends" : "airbnb-base",
   "plugins": [
     "import"
   ],
@@ -8,9 +8,9 @@
     "node": true
   },
   "rules": {
-    "indent": [2, 2],
-    "import/no-extraneous-dependencies": [2, {
-        "devDependencies": true
-    }]
+//    "indent": [2, 2],
+//    "import/no-extraneous-dependencies": [2, {
+//        "devDependencies": true
+//    }]
   }
 }

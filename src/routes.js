@@ -2,6 +2,7 @@ import express from 'express';
 
 import { log } from './utils';
 import { reportsList, generateReport } from './modules/reports';
+import { bdaActivities } from './modules/reports/bdaActivity';
 
 const router = new express.Router();
 
@@ -41,9 +42,9 @@ router.post('/slack/actions', async(req, res) => {
         const slackReqObj = JSON.parse(req.body.payload);
         let response;
         if(slackReqObj.callback_id === 'report_selection'){
-            // log.info(`Slack: ${slackReqObj}`);
-            // response = await generateReport({ slackReqObj });
             response = await generateReport({ slackReqObj });
+        }else if(slackReqObj.callback_id === 'bda_date'){
+            response = await bdaActivities.getBdaActivity({ slackReqObj })
         }
         return res.json(response);
     }catch (err){
