@@ -56,6 +56,19 @@ export  const getReportFilesDir = () => {
   }
 };
 
+export  const numberWithCommas = x => {
+  x = x.toFixed(2);
+  let parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+};
+export  const formatMoney = x => {
+  x = x.toFixed(2);
+  let parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return '_NGN_ ' + parts.join(".");
+};
+
 
 /*API Request*/
 export const postRequest = (url, payload) => {

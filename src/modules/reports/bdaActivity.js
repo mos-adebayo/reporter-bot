@@ -1,6 +1,6 @@
 import request from 'request';
 import moment from 'moment';
-import { log, getWeekDayName } from '../../utils';
+import { log, getWeekDayName, formatMoney } from '../../utils';
 import { postChatMessage } from '../slack';
 
 const getBdaActivity = async(options) => {
@@ -8,9 +8,9 @@ const getBdaActivity = async(options) => {
 // } getBdaActivity async (options, slackReqObj) => {
   try {
     const { slackReqObj } = options;
-    const  activeDate = '2017-11-30'; //slackReqObj.actions[0].selected_options[0].value;
+    const  activeDate = slackReqObj.actions[0].selected_options[0].value; //'2017-11-30'; //
     const dateString = moment(activeDate).format('Do of MMM., YYYY');
-    const message = {
+     const message = {
       responseUrl: slackReqObj.response_url,
       icon_emoji: ':ghost:',
       replaceOriginal: false,
@@ -21,7 +21,7 @@ const getBdaActivity = async(options) => {
           color: '#a61847',
           footer: 'Avitech',
           footer_icon: 'https://platform.slack-edge.com/img/default_application_icon.png',
-          ts: new Date().getTime(),
+          ts: moment().unix(),
         }
       ],
     };
@@ -43,7 +43,7 @@ const getBdaActivity = async(options) => {
           });
           message.text = `You have a total of *${body.length} invoices* with issues on the _${dateString}_ . See below details I can get on payments`;
           message.attachments[0].fallback = `You have a total of *${body.length} invoices* with issues on _${dateString}_ . See below details I can get on payments`;
-          message.attachments[0].text = `*Amount* \n ${Amount}  \n *BDA* \n ${BDAProcessedAmount} \n *Remita* \n ${TotalRemitaAmount}`;
+          message.attachments[0].text = `*Amount* \n ${formatMoney(Amount)}  \n *BDA* \n ${formatMoney(BDAProcessedAmount)} \n *Remita* \n ${formatMoney(TotalRemitaAmount)}`;
         }
       } else {
         message.attachments[0].text = 'Well this is embarrassing :sweat: I couldn\'t successfully get report for *BDA*';
