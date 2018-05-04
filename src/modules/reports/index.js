@@ -9,6 +9,7 @@ import { postChatMessage, uploadFile, getAirline } from '../slack';
 import getUserActivity from './getUserActivity';
 import getAirlinesActivity from './airlinesActivity';
 import getAirportsActivity from './airportsActivity';
+import getBdaActivity from './bdaActivity';
 
 const slackconfig = config.get('slack');
 
@@ -30,6 +31,12 @@ const REPORTS_CONFIG = {
         namePrefix: 'airlines',
         type: 'csv',
         func: getAirlinesActivity,
+    },
+    bda: {
+        name: 'BDA',
+        namePrefix: 'bda',
+        type: 'csv',
+        func: getBdaActivity,
     }
 };
 
